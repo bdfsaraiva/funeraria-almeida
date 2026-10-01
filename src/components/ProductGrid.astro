@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+import type { Product } from '../data/site';
+interface Props { products: Product[]; icon?: string }
+const { products, icon = 'urn' } = Astro.props;
+---
+<div class="products">
+  {products.map((p) => (
+    <figure class="product" style="margin:0">
+      <div class="figure">
+        <Icon name={icon} />
+        {p.image && <img src={p.image} alt={`Modelo ${p.name}`} loading="lazy" onerror="this.remove()" />}
+      </div>
+      <figcaption class="product__name"><strong>{p.name}</strong>{p.detail && <span>{p.detail}</span>}</figcaption>
+    </figure>
+  ))}
+</div>

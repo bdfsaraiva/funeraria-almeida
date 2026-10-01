@@ -1,0 +1,27 @@
+---
+import Leaf from './Leaf.astro';
+interface Props { title: string; intro?: string; crumbs?: { label: string; href?: string }[] }
+const { title, intro, crumbs = [] } = Astro.props;
+const all = [{ label: 'Início', href: '/' }, ...crumbs, { label: title }];
+const schema = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: all.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.label, ...(c.href ? { item: new URL(c.href, 'https://www.funerariaalmeida.pt').href } : {}) })),
+};
+---
+<section class="page-hero">
+  <picture class="page-hero__media">
+    <source srcset="/images/bg-folhas-outono.webp" type="image/webp" />
+    <img src="/images/bg-folhas-outono.jpg" alt="" width="1920" height="920" />
+  </picture>
+  <Leaf />
+  <div class="container">
+    <nav class="crumbs" aria-label="Localização">
+      <ol>
+        {all.map((c) => <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}
+      </ol>
+    </nav>
+    <h1>{title}</h1>
+    {intro && <p>{intro}</p>}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</section>

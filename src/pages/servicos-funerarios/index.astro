@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services, extras, funerals } from '../../data/site';
+const crem = funerals.find((f) => f.slug === 'cremacao')!;
+const cards = [{ ...crem, slug: 'cremacao' }, ...services];
+---
+<Base title="Serviços funerários" description="Cremação, exumação, trasladação, florista, tanoestética, publicação em jornais e funeral com música. Serviço funerário completo, 24 horas.">
+  <PageHero title="Serviços funerários" intro="Tudo o que é preciso para uma despedida digna, tratado por uma única equipa — para que não tenha de se preocupar com nada." />
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        {cards.map((s) => (
+          <a class="card reveal" href={`/servicos-funerarios/${s.slug}/`}>
+            <span class="card__icon"><Icon name={s.icon} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.short}</p>
+            <span class="link-arrow">Saiba mais <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">E ainda</span>
+        <h2>Pormenores que fazem a diferença</h2>
+      </div>
+      <div class="grid grid-3">
+        {extras.map((e) => (
+          <div class="feature reveal"><span class="feature__icon"><Icon name="check" /></span><div><h3>{e.title}</h3><p>{e.text}</p></div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section"><div class="container"><CtaBand /></div></section>
+</Base>

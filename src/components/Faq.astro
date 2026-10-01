@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+import { faqs } from '../data/site';
+const schema = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<div class="faq">
+  {faqs.map((f, i) => (
+    <details open={i === 0}>
+      <summary>{f.q}<Icon name="plus" /></summary>
+      <p>{f.a}</p>
+    </details>
+  ))}
+</div>
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

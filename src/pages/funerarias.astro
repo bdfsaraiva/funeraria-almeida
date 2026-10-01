@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import AgencyCard from '../components/AgencyCard.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { agencies, localPages } from '../data/site';
+---
+<Base title="Agências funerárias em Lisboa, Oeiras, Amadora e Almada" description="Agências da Funerária Almeida em Lisboa, Linda-a-Velha, Algés, Carnaxide, Amadora e Almada. Serviço profissional e económico, 24 horas.">
+  <PageHero title="As nossas agências" intro="Se procura uma funerária que preste um serviço profissional e económico, e que trate de tudo sem que tenha de se preocupar com burocracias, estamos perto de si." />
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">{agencies.map((a) => <AgencyCard agency={a} />)}</div>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Por localidade</span>
+        <h2>Funerária perto de si</h2>
+        <p class="lead">Fomos referenciados como uma das agências com melhor relação qualidade/preço, com técnicos experientes em todas as etapas do funeral.</p>
+      </div>
+      <div class="grid grid-3">
+        {localPages.map((l) => (
+          <a class="card reveal" href={`/${l.slug}/`}>
+            <span class="card__icon"><Icon name="pin" /></span>
+            <h3>Funerária em {l.city}</h3>
+            <p>{l.text[0]}</p>
+            <span class="link-arrow">Saiba mais <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section"><div class="container"><CtaBand /></div></section>
+</Base>

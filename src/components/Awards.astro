@@ -1,0 +1,30 @@
+---
+// Distinções da Funerária Almeida.
+// variant="nav": selos compactos no cabeçalho; variant="panel": faixa de destaque no início da página.
+import Icon from './Icon.astro';
+import { awards } from '../data/site';
+interface Props { variant?: 'nav' | 'panel' }
+const { variant = 'panel' } = Astro.props;
+---
+{variant === 'nav' ? (
+  <a class="nav-awards" href="/funeraria-almeida/#distincoes" aria-label={`Distinções: ${awards.map((a) => a.name).join(', ')}`}>
+    {awards.map((a) => <img src={a.img} alt="" width={a.w} height={a.h} loading="eager" decoding="async" />)}
+  </a>
+) : (
+  <div class="awards">
+    <ul class="awards__list" aria-label="Prémios e distinções">
+      {awards.map((a) => (
+        <li title={a.name}>
+          <img src={a.img} alt={a.name} width={a.w} height={a.h} loading="eager" decoding="async" />
+        </li>
+      ))}
+    </ul>
+    <div class="awards__deco">
+      <Icon name="award" />
+      <div>
+        <strong>DECO PROTESTE</strong>
+        <span>Classificação máxima «muito bom» na transparência do preço do funeral</span>
+      </div>
+    </div>
+  </div>
+)}

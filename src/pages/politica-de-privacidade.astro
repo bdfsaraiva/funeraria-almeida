@@ -1,0 +1,21 @@
+---
+import Detail from '../layouts/Detail.astro';
+import { site } from '../data/site';
+---
+<Detail title="Política de privacidade" intro="Como tratamos os dados pessoais recolhidos neste website.">
+  <p>A presente política de privacidade é válida única e exclusivamente para a utilização e o tratamento de dados neste website. Respeitamos a sua privacidade e os seus dados pessoais, e tomamos todas as medidas necessárias para os manter em segurança.</p>
+  <h2>1. Entidade responsável pelo tratamento</h2>
+  <p>A entidade responsável pelo tratamento dos dados enviados pelos utilizadores é a {site.name}.</p>
+  <h2>2. Utilização de cookies</h2>
+  <p>Os cookies são pequenos ficheiros que os servidores web gravam no equipamento que acede ao site, de acordo com as permissões do navegador, e que retêm apenas informação relacionada com a navegação ou com funcionalidades do site — não sendo usados para identificar pessoalmente os utilizadores.</p>
+  <p>Servem para facilitar a navegação e medir o número de visitantes. Utilizamos apenas cookies estritamente necessários, para facilitar a navegação, resolver problemas, produzir estatísticas anónimas, garantir a qualidade e monitorizar o funcionamento e a segurança do sistema.</p>
+  <h2>3. Recolha de dados pessoais</h2>
+  <p>Os dados pessoais recolhidos neste website destinam-se a responder a pedidos de contacto, de orçamento e de informação em geral, e aos efeitos legais necessários caso venha a celebrar um contrato ou transação comercial connosco. Estas informações não são transmitidas a terceiros.</p>
+  <p>Os dados ficam guardados em servidores cloud localizados na União Europeia, protegidos de acordo com elevados padrões de segurança.</p>
+  <h2>4. Direitos dos titulares dos dados</h2>
+  <p>Tem o direito de consultar, retificar ou eliminar os seus dados pessoais. Para isso, envie uma mensagem a partir do seu email para <a href={`mailto:${site.email}`}>{site.email}</a>, indicando claramente o que pretende.</p>
+  <h2>5. Período de conservação</h2>
+  <p>Conservamos os seus dados pessoais pelo período necessário à prestação dos serviços, à respetiva faturação e às finalidades referidas.</p>
+  <h2>6. Direito de reclamação</h2>
+  <p>Pode apresentar queixa junto da autoridade de controlo, a Comissão Nacional de Proteção de Dados (<a href="https://www.cnpd.pt" target="_blank" rel="noopener">cnpd.pt</a>).</p>
+</Detail>

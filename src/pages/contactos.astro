@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import AgencyCard from '../components/AgencyCard.astro';
+import Icon from '../components/Icon.astro';
+import { site, agencies } from '../data/site';
+const main = agencies.find((a) => a.main)!;
+const isPreview = import.meta.env.PUBLIC_PREVIEW === '1';
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(main.address!.join(', '))}&output=embed`;
+---
+<Base title="Contactos" description="Contactos da Funerária Almeida: linha permanente 214 193 820 (24 horas), email e moradas das agências em Lisboa, Linda-a-Velha, Algés, Carnaxide, Amadora e Almada.">
+  <PageHero title="Contactos" intro="Para qualquer informação sobre os nossos serviços, fale connosco. Atendemos 24 horas por dia, todos os dias do ano." />
+
+  <section class="section">
+    <div class="container split" style="align-items:start">
+      <div class="reveal">
+        <span class="eyebrow">Fale connosco</span>
+        <h2>Estamos disponíveis a qualquer hora</h2>
+        <p class="lead">Em situações urgentes, ligue-nos — é a forma mais rápida de receber ajuda.</p>
+        <div class="grid" style="gap:1rem;margin:2rem 0">
+          {site.phones.map((p) => (
+            <a class="feature" href={p.href} style="text-decoration:none;color:inherit">
+              <span class="feature__icon"><Icon name="phone" /></span>
+              <div><h3 style="margin:0">{p.label}</h3><p>{p.note}</p></div>
+            </a>
+          ))}
+          <a class="feature" href={`mailto:${site.email}`} style="text-decoration:none;color:inherit">
+            <span class="feature__icon"><Icon name="mail" /></span>
+            <div><h3 style="margin:0;font-size:1.2rem">{site.email}</h3><p>Respondemos com a maior brevidade</p></div>
+          </a>
+        </div>
+        <div class="map-embed">
+          <iframe src={mapSrc} title="Mapa — agência de Linda-a-Velha" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+
+      <div class="aside-card reveal" id="formulario" style="padding:clamp(1.5rem,4vw,2.5rem)">
+        <h2 style="font-size:2rem">Envie-nos uma mensagem</h2>
+        <p style="color:var(--ink-soft)">Respondemos por telefone ou email, como preferir.</p>
+        <div class="alert" role="status" data-form-ok hidden>Obrigado. Recebemos a sua mensagem e entraremos em contacto brevemente.</div>
+        <div class="alert" role="status" data-form-preview hidden>Pré-visualização: o envio de mensagens fica ativo na versão final do site.</div>
+        <div class="alert" role="alert" data-form-err hidden style="background:#f6e7e2;color:#7a3a28;border-color:#e8cbbf">Não foi possível enviar a mensagem. Por favor ligue-nos para o {site.phoneMain.label}.</div>
+        <form class="form" method="post" action="/enviar.php" data-preview={isPreview ? '' : undefined}>
+          <div class="field"><label for="nome">O seu nome <span>*</span></label><input id="nome" name="nome" required autocomplete="name" /></div>
+          <div class="form-row">
+            <div class="field"><label for="email">Email <span>*</span></label><input id="email" name="email" type="email" required autocomplete="email" /></div>
+            <div class="field"><label for="telefone">Telefone <span>*</span></label><input id="telefone" name="telefone" type="tel" required autocomplete="tel" /></div>
+          </div>
+          <div class="field">
+            <label for="assunto">Assunto</label>
+            <select id="assunto" name="assunto">
+              <option>Pedido de informação</option>
+              <option>Pedido de orçamento</option>
+              <option>Cremação</option>
+              <option>Exumação / Trasladação</option>
+              <option>Florista</option>
+              <option>Outro assunto</option>
+            </select>
+          </div>
+          <div class="field"><label for="mensagem">A sua mensagem</label><textarea id="mensagem" name="mensagem"></textarea></div>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <label class="check"><input type="checkbox" name="consentimento" required /> <span>Aceito que os dados fornecidos sejam usados apenas para responder a este pedido, nos termos da <a href="/politica-de-privacidade/">Política de Privacidade</a>. <span style="color:var(--gold)">*</span></span></label>
+          <button class="btn btn--primary" type="submit">Enviar mensagem <Icon name="arrow" /></button>
+          <small>(*) Campos obrigatórios</small>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Moradas</span>
+        <h2>As nossas agências</h2>
+      </div>
+      <div class="grid grid-3">{agencies.map((a) => <AgencyCard agency={a} />)}</div>
+      <p style="margin-top:2rem;color:var(--muted)">Fax: {site.fax}</p>
+    </div>
+  </section>
+
+  <script>
+    const q = new URLSearchParams(location.search);
+    if (q.get('enviado') === '1') document.querySelector('[data-form-ok]')?.removeAttribute('hidden');
+    if (q.get('enviado') === '0') document.querySelector('[data-form-err]')?.removeAttribute('hidden');
+    document.querySelector('form[data-preview]')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.querySelector('[data-form-preview]')?.removeAttribute('hidden');
+    });
+  </script>
+</Base>

@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import Leaf from './Leaf.astro';
+import { site, awards } from '../data/site';
+interface Props { links?: { label: string; href: string }[]; linksTitle?: string }
+const { links, linksTitle = 'Veja também' } = Astro.props;
+const path = Astro.url.pathname;
+---
+<aside class="aside">
+  <div class="aside-card aside-card--dark">
+    <Leaf />
+    <h3>Precisa de ajuda agora?</h3>
+    <small>Atendimento permanente, 24 horas</small>
+    <a class="big-phone" href={site.phoneMain.href}>{site.phoneMain.label}</a>
+    <small>{site.phoneMain.note}</small>
+    <div class="btn-row" style="margin-top:1.25rem">
+      <a class="btn btn--gold" href={site.phoneMain.href}><Icon name="phone" /> Ligar</a>
+      <a class="btn btn--light" href={`mailto:${site.email}`}><Icon name="mail" /> Email</a>
+    </div>
+  </div>
+  {links && (
+    <div class="aside-card">
+      <h3>{linksTitle}</h3>
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}<Icon name="arrow" /></a></li>
+        ))}
+      </ul>
+    </div>
+  )}
+  <div class="aside-card">
+    <h3>Distinções</h3>
+    <p style="color:var(--ink-soft);font-size:.95rem;margin-bottom:.25rem">Classificação máxima DECO PROTESTE na transparência do preço.</p>
+    <div class="aside-awards">{awards.map((a) => <img src={a.img} alt={a.name} width={a.w} height={a.h} loading="lazy" />)}</div>
+  </div>
+  <div class="aside-card">
+    <h3>Catálogo de produtos</h3>
+    <p style="color:var(--ink-soft);font-size:.95rem">Consulte urnas, potes e respetivos preços. Transparência total, antes de decidir.</p>
+    <a class="link-arrow" href={site.catalogPdf} target="_blank" rel="noopener"><Icon name="download" /> Descarregar catálogo (PDF)</a>
+  </div>
+</aside>

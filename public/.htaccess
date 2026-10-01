@@ -1,0 +1,24 @@
+# Apache: páginas de erro e redirecionamentos permanentes (301) de endereços antigos
+ErrorDocument 404 /404.html
+RewriteEngine On
+
+# Endereço único para o Google: https://www.funerariaalmeida.pt (o site WordPress já fazia isto)
+RewriteCond %{HTTP_HOST} ^funerariaalmeida\.pt$ [NC]
+RewriteRule ^ https://www.funerariaalmeida.pt%{REQUEST_URI} [R=301,L]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://www.funerariaalmeida.pt%{REQUEST_URI} [R=301,L]
+
+RewriteRule ^funeral/?$ /funerais/ [R=301,L]
+RewriteRule ^agencias-funerarias/?$ /funerarias/ [R=301,L]
+RewriteRule ^wp-content/uploads/2016/11/catalogo-precos\.pdf$ /docs/catalogo-precos.pdf [R=301,L]
+
+# Cache de ficheiros estáticos
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+</IfModule>

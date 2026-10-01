@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, awards } from '../data/site';
+const years = new Date().getFullYear() - site.since;
+---
+<Base title="Quem somos" description={`Conheça a Funerária Almeida: serviço funerário permanente 24 horas desde ${site.since}, com agências em Lisboa, Oeiras, Amadora e Almada.`}>
+  <PageHero title="Quem somos" intro={`Há mais de ${years} anos a cuidar de cada despedida com rigor, sensibilidade e respeito.`} />
+  <section class="section">
+    <div class="container split" style="align-items:start">
+      <div class="prose reveal">
+        <p class="lead">Na Funerária Almeida encontra um serviço de funeral completo. Tratamos com rigor e responsabilidade de todos os detalhes de cada cerimónia fúnebre.</p>
+        <p>Dada a fragilidade do momento, o nosso trabalho é libertá-lo de todos os processos. Preparamos o velório, o enterro ou a cremação, e tratamos de tudo o que se relaciona com o funeral: publicações em jornais, flores, colocação de altares nas salas de vigília, agendamento de missas de corpo presente, de 7.º dia e de 1 mês, entre muitos outros serviços.</p>
+        <p>Trabalhamos no setor funerário desde {site.since} e compreendemos a importância deste momento solene para familiares e amigos. A nossa equipa é sensível, sensata e sobretudo profissional, apta a aconselhar e a disponibilizar todos os meios que garantem a tranquilidade necessária ao processo de luto.</p>
+        <h2>Um serviço permanente</h2>
+        <p>Estamos disponíveis 24 horas por dia, todos os dias da semana. Realizamos funerais nacionais, em todo o país, e internacionais.</p>
+        <p>Sabemos que estes momentos são inesperados e trazem preocupações. Por isso disponibilizamos facilidades de pagamento — queremos que este momento seja tão tranquilo quanto possível.</p>
+      </div>
+      <div class="reveal" style="display:grid;gap:1.25rem">
+        <div class="quote-card">
+          <blockquote>Classificação máxima — «muito bom» — na transparência do preço do funeral apresentado ao consumidor.</blockquote>
+          <cite>Estudo sobre funerárias · DECO PROTESTE</cite>
+        </div>
+        <div class="stats" style="margin:0">
+          <div class="stat"><strong>{site.since}</strong><span>ano de fundação</span></div>
+          <div class="stat"><strong>7</strong><span>agências</span></div>
+          <div class="stat"><strong>24h</strong><span>todos os dias</span></div>
+        </div>
+        <picture>
+          <source srcset="/images/diploma.webp" type="image/webp" />
+          <img src="/images/diploma.jpg" alt="Diploma de reconhecimento" width="1200" height="840" loading="lazy" style="border-radius:14px;border:1px solid var(--line);background:#fff" />
+        </picture>
+      </div>
+    </div>
+  </section>
+  <section class="section section--sand" id="distincoes">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Distinções</span>
+        <h2>Reconhecimento que <em>nos honra</em></h2>
+        <p class="lead">{site.deco}</p>
+      </div>
+      <div class="awards-wall reveal">
+        {awards.map((a) => <img src={a.img} alt={a.name} title={a.name} width={a.w} height={a.h} loading="lazy" />)}
+      </div>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Os nossos valores</span>
+        <h2>O que nos orienta</h2>
+      </div>
+      <div class="grid grid-4">
+        <div class="feature reveal" style="flex-direction:column"><span class="feature__icon"><Icon name="heart" /></span><div><h3>Respeito</h3><p>Cada família e cada vida merecem uma homenagem digna e personalizada.</p></div></div>
+        <div class="feature reveal" style="flex-direction:column"><span class="feature__icon"><Icon name="shield" /></span><div><h3>Rigor</h3><p>Tratamos de cada detalhe com responsabilidade, do primeiro contacto ao fim.</p></div></div>
+        <div class="feature reveal" style="flex-direction:column"><span class="feature__icon"><Icon name="euro" /></span><div><h3>Transparência</h3><p>Preços claros, orçamento detalhado e facilidades de pagamento.</p></div></div>
+        <div class="feature reveal" style="flex-direction:column"><span class="feature__icon"><Icon name="users" /></span><div><h3>Proximidade</h3><p>Sete agências e uma linha permanente, sempre perto de si.</p></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section"><div class="container"><CtaBand /></div></section>
+</Base>

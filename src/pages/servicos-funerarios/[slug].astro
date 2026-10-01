@@ -1,0 +1,32 @@
+---
+import Detail from '../../layouts/Detail.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+import { funerals, services, site } from '../../data/site';
+
+export function getStaticPaths() {
+  const crem = funerals.find((f) => f.slug === 'cremacao')!;
+  return [
+    { params: { slug: 'cremacao' }, props: { s: crem } },
+    ...services.map((s) => ({ params: { slug: s.slug }, props: { s } })),
+  ];
+}
+const { s } = Astro.props as { s: any };
+const links = [
+  { label: 'Cremação', href: '/servicos-funerarios/cremacao/' },
+  ...services.map((x) => ({ label: x.title, href: `/servicos-funerarios/${x.slug}/` })),
+];
+const areas = ['Lisboa', 'Linda-a-Velha', 'Algés', 'Carnaxide', 'Amadora', 'Almada'];
+---
+<Detail title={s.title} intro={s.short} crumbs={[{ label: 'Serviços', href: '/servicos-funerarios/' }]} links={links} linksTitle="Outros serviços">
+  <p class="lead">{s.lead}</p>
+  {s.body.map((p: string) => <p>{p}</p>)}
+  {s.products && (
+    <>
+      <h2>{s.productsTitle}</h2>
+      <p>Dispomos de várias coleções de urnas para cremação. Consulte o <a href={site.catalogPdf} target="_blank" rel="noopener">catálogo completo</a> ou os nossos <a href="/funerais/potes/">potes e urnas cinerárias</a>.</p>
+      <ProductGrid products={s.products} icon="flame" />
+    </>
+  )}
+  <h2>Onde prestamos este serviço</h2>
+  <p>Em todas as nossas agências — {areas.join(', ')} — e em qualquer ponto do país. Contacte-nos 24 horas por dia, 7 dias por semana.</p>
+</Detail>

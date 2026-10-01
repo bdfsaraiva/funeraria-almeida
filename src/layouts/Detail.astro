@@ -1,0 +1,25 @@
+---
+import Base from './Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactAside from '../components/ContactAside.astro';
+import CtaBand from '../components/CtaBand.astro';
+interface Props {
+  title: string; seoTitle?: string; description?: string; intro?: string;
+  crumbs?: { label: string; href?: string }[];
+  links?: { label: string; href: string }[]; linksTitle?: string;
+}
+const { title, seoTitle, description, intro, crumbs, links, linksTitle } = Astro.props;
+---
+<Base title={seoTitle ?? title} description={description ?? intro}>
+  <PageHero title={title} intro={intro} crumbs={crumbs} />
+  <section class="section">
+    <div class="container content-layout">
+      <div class="prose"><slot /></div>
+      <ContactAside links={links} linksTitle={linksTitle} />
+    </div>
+  </section>
+  <slot name="after" />
+  <section class="section" style="padding-top:0">
+    <div class="container"><CtaBand /></div>
+  </section>
+</Base>

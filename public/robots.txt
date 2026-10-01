@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.funerariaalmeida.pt/sitemap-index.xml

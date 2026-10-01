@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+interface Props { title?: string; text?: string }
+const {
+  title = 'Sempre perto de si nos momentos mais difíceis',
+  text = 'Um dos nossos profissionais atende a qualquer hora do dia ou da noite, incluindo fins de semana e feriados.',
+} = Astro.props;
+---
+<div class="cta-band reveal">
+  <div>
+    <h2>{title}</h2>
+    <p>{text}</p>
+  </div>
+  <div class="cta-band__actions">
+    <small>Linha permanente 24 horas</small>
+    <a class="cta-band__phone" href={site.phoneMain.href}>{site.phoneMain.label}</a>
+    <div class="btn-row">
+      <a class="btn btn--gold" href={site.phoneMain.href}><Icon name="phone" /> Ligar agora</a>
+      <a class="btn btn--light" href="/contactos/#formulario">Pedir informações</a>
+    </div>
+  </div>
+</div>

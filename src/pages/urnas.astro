@@ -1,0 +1,15 @@
+---
+import Detail from '../layouts/Detail.astro';
+import ProductGrid from '../components/ProductGrid.astro';
+import { funerals, site } from '../data/site';
+---
+<Detail title="Urnas e catálogo" intro="Urnas para sepultura, jazigo e cremação, e potes para depósito de cinzas." crumbs={[{ label: 'Funerais', href: '/funerais/' }]} links={funerals.map((f) => ({ label: f.title, href: f.href }))} linksTitle="Tipos de funeral">
+  <p class="lead">Dispomos de urnas de várias gamas, madeiras e estilos. Ajudamos a escolher a mais adequada a cada cerimónia e a cada orçamento.</p>
+  <p>Consulte o <a href={site.catalogPdf} target="_blank" rel="noopener">catálogo completo com preços (PDF)</a>.</p>
+  {funerals.map((f) => (
+    <>
+      <h2><a href={f.href} style="text-decoration:none;color:inherit">{f.title}</a></h2>
+      <ProductGrid products={f.products} icon={f.slug === 'potes' ? 'urn' : f.slug === 'cremacao' ? 'flame' : 'leaf'} />
+    </>
+  ))}
+</Detail>

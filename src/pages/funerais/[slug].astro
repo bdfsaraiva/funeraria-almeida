@@ -1,0 +1,18 @@
+---
+import Detail from '../../layouts/Detail.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+import { funerals, site } from '../../data/site';
+
+export function getStaticPaths() {
+  return funerals.filter((f) => f.href.startsWith('/funerais/')).map((f) => ({ params: { slug: f.slug }, props: { f } }));
+}
+const { f } = Astro.props;
+const links = funerals.map((x) => ({ label: x.title, href: x.href }));
+---
+<Detail title={f.title} intro={f.short} crumbs={[{ label: 'Funerais', href: '/funerais/' }]} links={links} linksTitle="Tipos de funeral">
+  <p class="lead">{f.lead}</p>
+  {f.body.map((p) => <p>{p}</p>)}
+  <h2>{f.productsTitle}</h2>
+  <p>Estes são alguns dos modelos disponíveis. Consulte o <a href={site.catalogPdf} target="_blank" rel="noopener">catálogo completo com preços</a> ou fale connosco para aconselhamento.</p>
+  <ProductGrid products={f.products} icon={f.icon === 'urn' ? 'urn' : 'leaf'} />
+</Detail>

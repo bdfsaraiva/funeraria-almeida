@@ -1,0 +1,271 @@
+---
+import '../styles/global.css';
+import '../styles/sections.css';
+import '../styles/content.css';
+import Icon from '../components/Icon.astro';
+import Leaf from '../components/Leaf.astro';
+import Awards from '../components/Awards.astro';
+import { site, nav, agencies, awards } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  schema?: Record<string, unknown>;
+}
+const { title, description = site.description, image = '/og-image.jpg', schema } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, site.url).href;
+const fullTitle = path === '/' ? title : `${title} | ${site.name}`;
+// Pré-visualização (npm run build:preview): não indexar nos motores de busca
+const isPreview = import.meta.env.PUBLIC_PREVIEW === '1';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FuneralHome',
+  name: site.name,
+  url: site.url,
+  logo: `${site.url}/logo.svg`,
+  telephone: '+351214193820',
+  email: site.email,
+  foundingDate: String(site.since),
+  openingHours: 'Mo-Su 00:00-23:59',
+  priceRange: '€€',
+  areaServed: ['Lisboa', 'Oeiras', 'Amadora', 'Almada', 'Cascais'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rua Rodrigues Sampaio, 17',
+    postalCode: '2795-102',
+    addressLocality: 'Linda-a-Velha',
+    addressCountry: 'PT',
+  },
+  department: agencies
+    .filter((a) => a.address)
+    .map((a) => ({
+      '@type': 'FuneralHome',
+      name: `${site.name} — ${a.name}`,
+      address: { '@type': 'PostalAddress', streetAddress: a.address![0], addressLocality: a.address![1], addressCountry: 'PT' },
+    })),
+};
+---
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script is:inline>document.documentElement.classList.add('js');</script>
+  {isPreview && <meta name="robots" content="noindex, nofollow" />}
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta name="theme-color" content="#15100d" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_PT" />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={new URL(image, site.url).href} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+  <!-- Google Tag Manager: descomentar e manter o ID atual (GTM-THN8WQCG) -->
+  <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-THN8WQCG');</script> -->
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar__left">
+        <span class="topbar__item"><span class="dot"></span> <span class="topbar__long">Serviço funerário permanente ·</span> 24 horas, 7 dias</span>
+        <span class="topbar__item topbar__hide-sm"><Icon name="pin" /> Lisboa · Oeiras · Amadora · Almada</span>
+      </div>
+      <div class="topbar__right">
+        <a class="topbar__item topbar__hide-sm" href={`mailto:${site.email}`}><Icon name="mail" /> {site.email}</a>
+        <a class="topbar__item" href={site.phoneMain.href}><Icon name="phone" /> {site.phoneMain.label}</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header" data-header>
+    <div class="container">
+      <a class="brand" href="/" aria-label={`${site.name} — página inicial`}>
+        <img src="/logo.svg" alt={`${site.name} — Serviços Fúnebres`} width="206" height="48" />
+      </a>
+
+      <nav class="nav" aria-label="Principal">
+        <ul>
+          {nav.map((item) =>
+            item.children ? (
+              <li class="has-sub">
+                <a class="nav__link" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}<Icon name="chevron" class="nav__chev" />
+                </a>
+                <ul class="submenu">
+                  <li><a href={item.href}>Ver todos</a></li>
+                  {item.children.map((c) => <li><a href={c.href}>{c.label}</a></li>)}
+                </ul>
+              </li>
+            ) : (
+              <li><a class="nav__link" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+            )
+          )}
+        </ul>
+      </nav>
+
+      <Awards variant="nav" />
+
+      <div class="header__cta">
+        <a class="btn btn--primary" href={site.phoneMain.href}><Icon name="phone" /> Ligar 24h</a>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-movel" data-menu-open>
+          <Icon name="menu" />
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="menu-movel" role="dialog" aria-modal="true" aria-label="Menu" data-menu>
+    <div class="mobile-menu__head">
+      <a class="brand" href="/" aria-label={`${site.name} — página inicial`}>
+        <img src="/logo.svg" alt={`${site.name} — Serviços Fúnebres`} width="170" height="40" />
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Fechar menu" data-menu-close><Icon name="close" /></button>
+    </div>
+    <nav aria-label="Menu móvel">
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+            {item.children && (
+              <ul class="sub">{item.children.map((c) => <li><a href={c.href}>{c.label}</a></li>)}</ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="mobile-menu__awards">
+      {awards.map((a) => <img src={a.img} alt={a.name} width={a.w} height={a.h} loading="lazy" />)}
+    </div>
+    <div class="mobile-menu__cta">
+      <a class="btn btn--primary" href={site.phoneMain.href}><Icon name="phone" /> Ligar {site.phoneMain.label}</a>
+      <a class="btn btn--ghost" href={`mailto:${site.email}`}><Icon name="mail" /> Enviar email</a>
+    </div>
+  </div>
+
+  <main id="conteudo">
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <Leaf />
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a class="brand" href="/" aria-label={`${site.name} — página inicial`}>
+            <img src="/logo-light.svg" alt={`${site.name} — Serviços Fúnebres`} width="220" height="51" loading="lazy" />
+          </a>
+          <p>Serviço funerário permanente desde {site.since}. Sempre perto de si nos momentos mais difíceis.</p>
+          <small>Serviços funerários 24h</small><br />
+          <a class="footer__phone" href={site.phoneMain.href}>{site.phoneMain.label}</a><br />
+          <small>{site.phoneMain.note}</small>
+          <div class="footer__badges">
+            {awards.map((a) => <img src={a.img} alt={a.name} width={a.w} height={a.h} loading="lazy" />)}
+          </div>
+        </div>
+        <div>
+          <h4>Funerais e serviços</h4>
+          <ul>
+            <li><a href="/funerais/sepultura/">Funeral para sepultura</a></li>
+            <li><a href="/funerais/jazigo/">Funeral para jazigo</a></li>
+            <li><a href="/servicos-funerarios/cremacao/">Cremação</a></li>
+            <li><a href="/servicos-funerarios/exumacao/">Exumação</a></li>
+            <li><a href="/servicos-funerarios/trasladacao/">Trasladação</a></li>
+            <li><a href="/servicos-funerarios/servicos-de-florista/">Florista</a></li>
+            <li><a href="/urnas/">Catálogo de urnas</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Agências</h4>
+          <ul>
+            <li><a href="/agencias-funerarias-lisboa/">Funerária em Lisboa</a></li>
+            <li><a href="/funeraria-linda-a-velha/">Funerária em Linda-a-Velha</a></li>
+            <li><a href="/agencias-funerarias-oeiras/">Funerária em Oeiras</a></li>
+            <li><a href="/agencias-funerarias-almada/">Funerária em Almada</a></li>
+            <li><a href="/agencias-funerarias-amadora/">Funerária na Amadora</a></li>
+            <li><a href="/agencias-funerarias-cascais/">Funerária em Cascais</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contactos</h4>
+          <ul>
+            {site.phones.map((p) => <li><a href={p.href}>{p.label}</a> <small>· {p.note}</small></li>)}
+            <li>Fax: {site.fax}</li>
+            <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><a href="/contactos/">Todas as moradas →</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <p>
+          Em caso de litígio, o consumidor pode recorrer a uma Entidade de Resolução Alternativa de Litígios de Consumo:
+          Centro de Arbitragem de Conflitos de Consumo de Lisboa (<a href="https://www.centroarbitragemlisboa.pt" rel="noopener" target="_blank">centroarbitragemlisboa.pt</a>).
+          Mais informações no Portal do Consumidor (<a href="https://www.consumidor.gov.pt" rel="noopener" target="_blank">consumidor.gov.pt</a>).
+          <br />© {new Date().getFullYear()} {site.name}. Todos os direitos reservados · <a href="/politica-de-privacidade/">Política de privacidade</a>
+        </p>
+        <a class="livro" href="https://www.livroreclamacoes.pt" rel="noopener" target="_blank"><Icon name="book" class="nav__chev" /> Livro de Reclamações</a>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="callbar" aria-label="Contacto rápido">
+    <a class="btn btn--gold" href={site.phoneMain.href}><Icon name="phone" /> Ligar 24h</a>
+    <a class="btn btn--light" href="/contactos/">Contactos</a>
+  </nav>
+
+  <script>
+    // Sombra do cabeçalho ao fazer scroll
+    const header = document.querySelector('[data-header]');
+    const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Menu móvel
+    const menu = document.querySelector('[data-menu]');
+    const openBtn = document.querySelector('[data-menu-open]');
+    const closeBtn = document.querySelector('[data-menu-close]');
+    const outside = ['.topbar', '[data-header]', 'main', '.footer', '.callbar'].map((s) => document.querySelector(s));
+    const setMenu = (open: boolean) => {
+      if (!menu || menu.classList.contains('is-open') === open) return;
+      menu.classList.toggle('is-open', open);
+      openBtn?.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+      outside.forEach((el) => el?.toggleAttribute('inert', open));
+      ((open ? closeBtn : openBtn) as HTMLElement | null)?.focus();
+    };
+    openBtn?.addEventListener('click', () => setMenu(true));
+    closeBtn?.addEventListener('click', () => setMenu(false));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+
+    // Aparecimento suave das secções
+    const els = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      els.forEach((el) => io.observe(el));
+    } else {
+      els.forEach((el) => el.classList.add('is-visible'));
+    }
+  </script>
+</body>
+</html>

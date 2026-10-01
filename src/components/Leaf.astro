@@ -1,0 +1,11 @@
+---
+// Folha do logótipo como elemento gráfico da marca (traço fino, marca d'água).
+import { leafViewBox, leafPath, leafMidrib, leafVeins } from '../data/leaf';
+interface Props { class?: string }
+const { class: cls = 'leaf-mark' } = Astro.props;
+---
+<svg class={cls} viewBox={leafViewBox} fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">
+  <path d={leafPath} stroke-width=".35" />
+  <path d={leafMidrib} stroke-width=".45" />
+  <path d={leafVeins} stroke-width=".3" />
+</svg>

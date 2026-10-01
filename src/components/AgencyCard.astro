@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import { mapsLink, type Agency } from '../data/site';
+interface Props { agency: Agency }
+const { agency: a } = Astro.props;
+const map = mapsLink(a);
+---
+<article class="agency reveal">
+  <div class="agency__head">
+    <div>
+      <div class="agency__area">{a.area}</div>
+      <h3>{a.name}</h3>
+    </div>
+    {a.main && <span class="badge">Sede</span>}
+  </div>
+  <address>
+    <Icon name="pin" />
+    <span>{a.address ? a.address.map((l, i) => <>{l}{i < a.address!.length - 1 && <br />}</>) : 'Contacte-nos para mais informações'}</span>
+  </address>
+  <div class="agency__phones">
+    <Icon name="phone" />
+    <div>{a.phones.map((p) => <a href={p.href}>{p.label}</a>)}</div>
+  </div>
+  {map && <a class="link-arrow" href={map} target="_blank" rel="noopener">Ver no mapa <Icon name="arrow" /></a>}
+</article>

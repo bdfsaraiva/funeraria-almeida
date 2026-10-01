@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { funerals, site } from '../../data/site';
+---
+<Base title="Funerais para sepultura, jazigo e cremação" description="Funerais para sepultura, jazigo e cremação com urnas de várias gamas e o acompanhamento profissional da Funerária Almeida, 24 horas.">
+  <PageHero title="Funerais" intro="Executamos funerais para sepultura, jazigo e cremação, sempre com as urnas e os materiais adequados — e com absoluto profissionalismo." />
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        {funerals.map((f) => (
+          <a class="card reveal" href={f.href}>
+            <span class="card__icon"><Icon name={f.icon} /></span>
+            <h3>{f.title}</h3>
+            <p>{f.lead}</p>
+            <span class="link-arrow">Ver detalhes e modelos <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="container split">
+      <div class="reveal">
+        <span class="eyebrow">Transparência</span>
+        <h2>Preços claros, antes de qualquer decisão</h2>
+        <p>Apresentamos sempre um orçamento detalhado. Pode consultar o nosso catálogo com urnas, potes e respetivos preços, ou pedir-nos aconselhamento sem compromisso.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={site.catalogPdf} target="_blank" rel="noopener"><Icon name="download" /> Catálogo (PDF)</a>
+          <a class="btn btn--ghost" href="/urnas/">Ver modelos online</a>
+        </div>
+      </div>
+      <div class="grid reveal" style="gap:1.25rem">
+        <div class="feature"><span class="feature__icon"><Icon name="euro" /></span><div><h3>Facilidades de pagamento</h3><p>Sabemos que um funeral é uma despesa inesperada. Fale connosco sobre as condições.</p></div></div>
+        <div class="feature"><span class="feature__icon"><Icon name="doc" /></span><div><h3>Sem burocracias</h3><p>Tratamos de toda a documentação e dos pedidos às entidades competentes.</p></div></div>
+        <div class="feature"><span class="feature__icon"><Icon name="globe" /></span><div><h3>Nacionais e internacionais</h3><p>Realizamos funerais em todo o país e no estrangeiro.</p></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section"><div class="container"><CtaBand /></div></section>
+</Base>

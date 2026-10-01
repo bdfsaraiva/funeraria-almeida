@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Leaf from '../components/Leaf.astro';
+import Awards from '../components/Awards.astro';
+import AgencyCard from '../components/AgencyCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { site, funerals, services, agencies } from '../data/site';
+
+const years = new Date().getFullYear() - site.since;
+const all = [...funerals.slice(0, 3), ...services.slice(0, 3)].map((s) => ({
+  ...s,
+  href: 'href' in s ? (s as any).href : `/servicos-funerarios/${s.slug}/`,
+}));
+---
+<Base title="Funerária Almeida | Serviço funerário 24h em Lisboa, Oeiras e Almada">
+  <!-- HERO -->
+  <section class="hero">
+    <picture class="hero__media">
+      <source media="(max-width: 760px)" srcset="/images/bg-folhas-madeira-sm.webp" type="image/webp" />
+      <source srcset="/images/bg-folhas-madeira.webp" type="image/webp" />
+      <img src="/images/bg-folhas-madeira.jpg" alt="" width="1920" height="920" fetchpriority="high" />
+    </picture>
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="eyebrow">Agência funerária desde {site.since}</span>
+        <h1>Cuidamos de tudo, <em>com respeito</em> e serenidade.</h1>
+        <p class="lead">
+          Funerais para sepultura, jazigo e cremação, em todo o país. Uma equipa experiente que trata de cada detalhe,
+          para que a sua família se possa dedicar apenas à despedida.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--gold" href={site.phoneMain.href}><Icon name="phone" /> Ligar {site.phoneMain.label}</a>
+          <a class="btn btn--ghost" href="#servicos">Conhecer os serviços</a>
+        </div>
+        <ul class="hero__facts">
+          <li>Desde {site.since}</li>
+          <li>7 agências</li>
+          <li>Todo o país</li>
+          <li>Facilidades de pagamento</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINHA 24H + DISTINÇÕES -->
+  <section class="hero-panel-wrap" aria-label="Contacto imediato e distinções">
+    <div class="container">
+      <div class="hero-panel">
+        <div class="hero-panel__call">
+          <Leaf />
+          <div class="hero-panel__label"><span class="dot"></span> Atendimento permanente</div>
+          <a class="hero-panel__phone" href={site.phoneMain.href}>{site.phoneMain.label}</a>
+          <small>{site.phoneMain.note} · 24 horas, 7 dias por semana</small>
+          <ul>
+            <li><Icon name="clock" /> Deslocação imediata, a qualquer hora</li>
+            <li><Icon name="doc" /> Tratamos de toda a documentação</li>
+            <li><Icon name="euro" /> Orçamento claro, sem surpresas</li>
+          </ul>
+        </div>
+        <div class="hero-panel__awards">
+          <span class="eyebrow">Distinções e reconhecimento</span>
+          <Awards />
+          <a class="link-arrow hero-panel__more" href="/funeraria-almeida/#distincoes">Conheça as nossas distinções <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="section" id="servicos">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Os nossos serviços</span>
+        <h2>Um serviço completo, do primeiro contacto à <em>última homenagem</em></h2>
+        <p class="lead">Tratamos com rigor e responsabilidade de todos os detalhes relativos ao funeral.</p>
+      </div>
+      <div class="grid grid-3 services">
+        {all.map((s) => (
+          <a class="card reveal" href={s.href}>
+            <span class="card__icon"><Icon name={s.icon} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.short}</p>
+            <span class="link-arrow">Saiba mais <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top:2.75rem;text-align:center">
+        <a class="btn btn--ghost" href="/servicos-funerarios/">Ver todos os serviços <Icon name="arrow" /></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- PASSOS -->
+  <section class="section section--dark">
+    <div class="container steps-layout">
+      <figure class="arch reveal">
+        <picture>
+          <source srcset="/images/velas.webp" type="image/webp" />
+          <img src="/images/velas.jpg" alt="Duas velas acesas sobre madeira escura" width="800" height="872" loading="lazy" />
+        </picture>
+        <figcaption>Estamos consigo</figcaption>
+      </figure>
+      <div>
+        <div class="section-head reveal" style="margin-bottom:2.25rem">
+          <span class="eyebrow">Quando alguém parte</span>
+          <h2>Sabemos que não é fácil. <em>Por isso, simplificamos.</em></h2>
+          <p>Num momento de perda, a última coisa de que precisa são burocracias. Assim trabalhamos consigo:</p>
+        </div>
+        <ol class="steps">
+          <li class="reveal"><div><h3>Ligue-nos</h3><p>A qualquer hora, para o {site.phoneMain.label}. Ouvimos, orientamos e deslocamo-nos até si.</p></div></li>
+          <li class="reveal"><div><h3>Planeamos juntos</h3><p>Ajudamos a escolher o tipo de cerimónia e apresentamos um orçamento claro, sem surpresas.</p></div></li>
+          <li class="reveal"><div><h3>Tratamos de tudo</h3><p>Documentação, velório, flores, publicações em jornais e agendamento de missas.</p></div></li>
+          <li class="reveal"><div><h3>Acompanhamos</h3><p>Estamos presentes no dia da cerimónia e continuamos disponíveis depois dela.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="section section--paper">
+    <div class="container split">
+      <div class="reveal">
+        <span class="eyebrow">A Funerária Almeida</span>
+        <h2>Experiência e proximidade em <em>cada despedida</em></h2>
+        <p class="lead">
+          Desde {site.since} que acompanhamos famílias da região de Lisboa nos momentos mais difíceis.
+        </p>
+        <p>
+          Compreendemos a importância deste momento solene e dispomos de uma equipa sensível, sensata e sobretudo profissional.
+        </p>
+        <ul class="checklist">
+          <li><Icon name="check" /> Funerais para sepultura, jazigo e cremação, em todo o país e no estrangeiro</li>
+          <li><Icon name="check" /> Câmaras frigoríficas próprias e serviço de tanoestética</li>
+          <li><Icon name="check" /> Florista, altares, música e reportagem da cerimónia</li>
+          <li><Icon name="check" /> Facilidades de pagamento em todos os serviços</li>
+        </ul>
+        <a class="link-arrow" href="/funeraria-almeida/">Conheça a nossa história <Icon name="arrow" /></a>
+      </div>
+      <div class="reveal">
+        <div class="quote-card">
+          <blockquote>A Funerária Almeida obteve a classificação máxima — «muito bom» — na transparência do preço do funeral apresentado ao consumidor.</blockquote>
+          <cite>Estudo sobre funerárias · DECO PROTESTE</cite>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>{years}+</strong><span>anos de experiência</span></div>
+          <div class="stat"><strong>7</strong><span>agências na região</span></div>
+          <div class="stat"><strong>24h</strong><span>todos os dias do ano</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGÊNCIAS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Perto de si</span>
+        <h2>As nossas agências</h2>
+        <p class="lead">Encontre a agência mais próxima. Todas partilham a mesma linha permanente.</p>
+      </div>
+      <div class="grid grid-3">
+        {agencies.slice(0, 6).map((a) => <AgencyCard agency={a} />)}
+      </div>
+      <p style="margin-top:2.25rem"><a class="link-arrow" href="/contactos/">Ver todas as agências e contactos <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--sand">
+    <div class="container split" style="align-items:start">
+      <div class="reveal">
+        <span class="eyebrow">Perguntas frequentes</span>
+        <h2>Respostas simples para um <em>momento difícil</em></h2>
+        <p class="lead">Se não encontrar aqui a resposta, ligue-nos. Estamos cá para ajudar, sem qualquer compromisso.</p>
+        <a class="btn btn--primary" href={site.phoneMain.href}><Icon name="phone" /> {site.phoneMain.label}</a>
+      </div>
+      <div class="reveal"><Faq /></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;background:var(--sand)">
+    <div class="container"><CtaBand /></div>
+  </section>
+</Base>
