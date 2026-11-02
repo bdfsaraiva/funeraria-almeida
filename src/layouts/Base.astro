@@ -156,9 +156,9 @@ const orgSchema = {
     <div class="mobile-menu__awards">
       {awards.map((a) => <img src={a.img} alt={a.name} width={a.w} height={a.h} loading="lazy" />)}
     </div>
-    <div class="mobile-menu__cta">
+    <a class="btn btn--ghost mobile-menu__mail" href={`mailto:${site.email}`}><Icon name="mail" /> Enviar email</a>
+    <div class="mobile-menu__call">
       <a class="btn btn--primary" href={site.phoneMain.href}><Icon name="phone" /> Ligar {site.phoneMain.label}</a>
-      <a class="btn btn--ghost" href={`mailto:${site.email}`}><Icon name="mail" /> Enviar email</a>
     </div>
   </div>
 
@@ -243,7 +243,7 @@ const orgSchema = {
     const menu = document.querySelector('[data-menu]');
     const openBtn = document.querySelector('[data-menu-open]');
     const closeBtn = document.querySelector('[data-menu-close]');
-    const outside = ['.topbar', '[data-header]', 'main', '.footer', '.callbar'].map((s) => document.querySelector(s));
+    const outside = ['.skip-link', '.topbar', '[data-header]', 'main', '.footer', '.callbar'].map((s) => document.querySelector(s));
     const setMenu = (open: boolean) => {
       if (!menu || menu.classList.contains('is-open') === open) return;
       menu.classList.toggle('is-open', open);
@@ -255,6 +255,8 @@ const orgSchema = {
     openBtn?.addEventListener('click', () => setMenu(true));
     closeBtn?.addEventListener('click', () => setMenu(false));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+    // Acima de 1180px o botão de fechar desaparece (ex.: ao rodar um tablet)
+    matchMedia('(max-width: 1180px)').addEventListener?.('change', (e) => { if (!e.matches) setMenu(false); });
 
     // Aparecimento suave das secções
     const els = document.querySelectorAll('.reveal');
