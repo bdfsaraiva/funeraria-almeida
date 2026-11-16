@@ -53,11 +53,11 @@ export const nav = [
 ];
 
 export const awards = [
-  { name: 'PME Líder 2025', img: '/images/premios/pme-lider-2025.png', w: 116, h: 138 },
-  { name: 'Scoring Top 5% — Melhores PME de Portugal 2025', img: '/images/premios/scoring-top5-2025.png', w: 146, h: 147 },
-  { name: 'Scoring Top 10 — Melhores PME do setor 2025', img: '/images/premios/scoring-top10-2025.png', w: 149, h: 143 },
-  { name: 'PME Excelência 2022', img: '/images/premios/pme-excelencia-2022.png', w: 307, h: 242 },
-  { name: 'PME Líder 2022', img: '/images/premios/pme-lider-2022.png', w: 119, h: 140 },
+  { name: 'PME Líder 2025', img: '/images/premios/pme-lider-2025.webp', w: 116, h: 138 },
+  { name: 'Scoring Top 5% — Melhores PME de Portugal 2025', img: '/images/premios/scoring-top5-2025.webp', w: 146, h: 147 },
+  { name: 'Scoring Top 10 — Melhores PME do setor 2025', img: '/images/premios/scoring-top10-2025.webp', w: 149, h: 143 },
+  { name: 'PME Excelência 2022', img: '/images/premios/pme-excelencia-2022.webp', w: 307, h: 242 },
+  { name: 'PME Líder 2022', img: '/images/premios/pme-lider-2022.webp', w: 119, h: 140 },
 ];
 
 export type Agency = {

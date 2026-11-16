@@ -9,7 +9,8 @@ export default defineConfig({
   site: 'https://www.funerariaalmeida.pt',
   outDir: isPreview ? './dist-preview' : './dist',
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  // CSS embutido em cada página: o texto aparece sem esperar por um ficheiro .css à parte.
+  build: { format: 'directory', inlineStylesheets: 'always' },
   // Mantém os espaços entre elementos inline; a predefinição do Astro 7 ('jsx') remove-os.
   compressHTML: true,
   // Mantém o CSS compatível com os browsers já suportados: com os alvos predefinidos do Vite 8,
