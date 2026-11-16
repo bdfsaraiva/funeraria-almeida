@@ -8,7 +8,7 @@ const { variant = 'panel' } = Astro.props;
 ---
 {variant === 'nav' ? (
   <a class="nav-awards" href="/funeraria-almeida/#distincoes" aria-label={`Distinções: ${awards.map((a) => a.name).join(', ')}`}>
-    {awards.map((a) => <img src={a.img} alt="" width={a.w} height={a.h} loading="eager" decoding="async" />)}
+    {awards.map((a) => <img src={a.img} alt="" width={a.w} height={a.h} decoding="async" fetchpriority="low" />)}
   </a>
 ) : (
   <div class="awards">
